@@ -15,10 +15,14 @@ public class Main {
         String arquivoOriginal = args[0];
         String arquivoComprimido = args[1];
 
+        String texto = getTextoArquivo(arquivoOriginal);
+        System.out.println(texto);
+    }
+
+    public static String getTextoArquivo(String arquivo) throws IOException {
         String texto = "";
         String linha = "";
-        BufferedReader reader = new BufferedReader(new FileReader(arquivoOriginal));
-
+        BufferedReader reader = new BufferedReader(new FileReader(arquivo));
 
         linha = reader.readLine();
         while (linha != null){
@@ -27,6 +31,6 @@ public class Main {
         }
         reader.close();
 
-        System.out.println(texto);
+        return texto;
     }
 }
