@@ -2,63 +2,88 @@ import java.util.ArrayList;
 
 public class MinHeap {
     ArrayList<No> heap;
-    private int size;
 
     public MinHeap() {
         heap = new ArrayList<>();
-        this.size = 0;
     }
 
-    public No parent(No i) return heap.get((i - 1) / 2); 
-    public No left(No i) return heap.get(2 * i + 1); 
-    public No right(No i) return heap.get(2 * i + 2); 
-
-    public int getSize() return size;
-
-    public boolean isLeaf(int i) return (i >= size / 2) && (i < size); 
-
-    public void swap(int i, int j) {
-        No temp = heap.get(i);
-        heap.set(i, heap.get(j));
-        heap.set(j, temp);      
+    public int getSize() {
+        return heap.size();
     }
 
-    public void insert(No element) {
-        heap.add(element);
-        size++;
-        int current = size - 1;
+    private void swap(int index1, int index2) {
+        No temp = heap.get(index1);
+        heap.set(index1, heap.get(index2));
+        heap.set(index2, temp);
+    }
 
-        while (current > 0 && heap.get(current).compareTo(parent(current)) < 0) {
-            swap(current, (current - 1) / 2);
-            current = (current - 1) / 2;
+    /**
+     Insere um novo nó mantendo a estrutura do MinHeap */
+    public void inserir(No i) {
+        heap.add(i);
+
+        // Pegar posição do nó a ser inserido e seu pai
+        int indexInsercao = heap.size() - 1;
+        int parentIndex = (indexInsercao - 1) / 2;
+
+        // Loop para Manter a estrutura do MinHeap
+        while (indexInsercao > 0 && heap.get(indexInsercao).compareTo(heap.get(parentIndex)) < 0) {
+            swap(indexInsercao, parentIndex);
+
+            indexInsercao = parentIndex;
+            parentIndex = (indexInsercao - 1) / 2;
         }
+
     }
 
-    public No remove() {
-        if (size == 0) return null;
-        No popped = heap.get(0);
-        heap.set(0, heap.get(size - 1));
-        heap.remove(size - 1);
-        size--;
-        minHeapify(0);
-        return popped;
-    }
 
-    public heapify(int i) {
-        if (!isLeaf(i)) {
-            No left = left(i);
-            No right = right(i);
-            No menor = heap.get(i);
+    /** Reorganiza o heap */
+    private void siftDown(int index) {
+        int menorIndex = index;
 
-            if (left != null && left.compareTo(menor) < 0) menor = left;
-            if (right != null && right.compareTo(menor) < 0) menor = right;
+        while (true) {
+            int esquerdaIndex = 2 * index + 1;
+            int direitaIndex = 2 * index + 2;
 
-            if (menor != heap.get(i)) {
-                int menorIndex = heap.indexOf(menor);
-                swap(i, menorIndex);
-                minHeapify(menorIndex);
+            // Verifica se o filho da esquerda existe e se é menor que o nó atual.
+            if (esquerdaIndex < heap.size() && heap.get(esquerdaIndex).compareTo(heap.get(menorIndex)) < 0) {
+                menorIndex = esquerdaIndex;
+            }
+
+            // Verifica se o filho da direita existe e se é menor que o menor encontrado até agora.
+            if (direitaIndex < heap.size() && heap.get(direitaIndex).compareTo(heap.get(menorIndex)) < 0) {
+                menorIndex = direitaIndex;
+            }
+
+            // Se o menor índice ainda for o nó atual, a propriedade do heap está satisfeita.
+            if (menorIndex == index) {
+                break;
+            } else {
+                // Caso contrário, troca com o menor filho e continua o processo a partir da nova posição.
+                swap(index, menorIndex);
+                index = menorIndex;
             }
         }
+    }
+
+    /** Remove e retorna o nó de menor frequência */
+    public No removeMenor() {
+        if (heap.isEmpty()) {
+            throw new RuntimeException("O heap está vazio.");
+        }
+
+        No noRemovido = heap.get(0);
+
+        No ultimoElemento = heap.remove(heap.size() - 1);
+
+        // Se o heap não ficou vazio após a remoção,
+        // coloca o último elemento na raiz e reorganiza.
+        if (!heap.isEmpty()) {
+            heap.set(0, ultimoElemento);
+            siftDown(0);
+        }
+
+        return noRemovido;
     }
 
 
