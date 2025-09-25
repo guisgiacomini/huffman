@@ -3,7 +3,7 @@ import java.util.ArrayList;
 // Alice de Oliveira Duarte - 10419323
 // Pedro Roberto Fernandes Noronha - 10443434
 // Guilherme Silveira Giacomini - 10435311
-// Carlos Eduardo Diniz de Almeida -
+// Carlos Eduardo Diniz de Almeida - 10444407
 
 // Min-heap usando ArrayList - menor element fica na root (index 0)
 public class MinHeap {

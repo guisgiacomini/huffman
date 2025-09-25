@@ -1,9 +1,14 @@
 # Relatório - Projeto Huffman
 ## Compressão de Arquivos com o Algoritmo de Huffman
 
-**Integrantes:** Alice de Oliveira Duarte - 10419323
+**Integrantes:** 
+
+Alice de Oliveira Duarte - 10419323
+
 Pedro Roberto Fernandes Noronha - 10443434
+
 Guilherme Silveira Giacomini - 10435311
+
 Carlos Eduardo Diniz de Almeida - 10444407
 
 

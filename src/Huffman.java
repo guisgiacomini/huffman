@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-// Alice de Oliveira Duarte - 104019323
+// Alice de Oliveira Duarte - 10419323
+// Pedro Roberto Fernandes Noronha - 10443434
+// Guilherme Silveira Giacomini - 10435311
+// Carlos Eduardo Diniz de Almeida - 10444407
 
 // Huffman compression/decompression usando MinHeap e árvore binária
 public class Huffman {
