@@ -1,90 +1,81 @@
 import java.util.ArrayList;
 
-public class MinHeap {
-    ArrayList<No> heap;
+// Alice de Oliveira Duarte - 10419323
+// Pedro Roberto Fernandes Noronha - 10443434
+// Guilherme Silveira Giacomini - 10435311
+// Carlos Eduardo Diniz de Almeida -
 
+// Min-heap usando ArrayList - menor element fica na root (index 0)
+public class MinHeap {
+    private final ArrayList<No> heap;
+
+    // Cria heap vazio
     public MinHeap() {
-        heap = new ArrayList<>();
+        this.heap = new ArrayList<>();
     }
 
-    public int getSize() {
+    // Insere node no heap
+    public void insert(No node) {
+        heap.add(node);
+        siftUp(heap.size() - 1);
+    }
+
+    // Remove e retorna o min (root)
+    public No removeMin() {
+        if (heap.isEmpty()) {
+            throw new IllegalStateException("Heap vazio");
+        }
+        No min = heap.get(0);
+        No last = heap.remove(heap.size() - 1);
+        if (!heap.isEmpty()) {
+            heap.set(0, last);
+            siftDown(0);
+        }
+        return min;
+    }
+
+    // Retorna size do heap
+    public int size() {
         return heap.size();
     }
 
-    private void swap(int index1, int index2) {
-        No temp = heap.get(index1);
-        heap.set(index1, heap.get(index2));
-        heap.set(index2, temp);
-    }
-
-    /**
-     Insere um novo nó mantendo a estrutura do MinHeap */
-    public void inserir(No i) {
-        heap.add(i);
-
-        // Pegar posição do nó a ser inserido e seu pai
-        int indexInsercao = heap.size() - 1;
-        int parentIndex = (indexInsercao - 1) / 2;
-
-        // Loop para Manter a estrutura do MinHeap
-        while (indexInsercao > 0 && heap.get(indexInsercao).compareTo(heap.get(parentIndex)) < 0) {
-            swap(indexInsercao, parentIndex);
-
-            indexInsercao = parentIndex;
-            parentIndex = (indexInsercao - 1) / 2;
-        }
-
-    }
-
-
-    /** Reorganiza o heap */
-    private void siftDown(int index) {
-        int menorIndex = index;
-
-        while (true) {
-            int esquerdaIndex = 2 * index + 1;
-            int direitaIndex = 2 * index + 2;
-
-            // Verifica se o filho da esquerda existe e se é menor que o nó atual.
-            if (esquerdaIndex < heap.size() && heap.get(esquerdaIndex).compareTo(heap.get(menorIndex)) < 0) {
-                menorIndex = esquerdaIndex;
-            }
-
-            // Verifica se o filho da direita existe e se é menor que o menor encontrado até agora.
-            if (direitaIndex < heap.size() && heap.get(direitaIndex).compareTo(heap.get(menorIndex)) < 0) {
-                menorIndex = direitaIndex;
-            }
-
-            // Se o menor índice ainda for o nó atual, a propriedade do heap está satisfeita.
-            if (menorIndex == index) {
+    // Move element up para manter heap property
+    private void siftUp(int idx) {
+        while (idx > 0) {
+            int pai = (idx - 1) / 2;
+            No atual = heap.get(idx);
+            No noPai = heap.get(pai);
+            if (atual.compareTo(noPai) >= 0) {
                 break;
-            } else {
-                // Caso contrário, troca com o menor filho e continua o processo a partir da nova posição.
-                swap(index, menorIndex);
-                index = menorIndex;
             }
+            // troca com o pai
+            heap.set(idx, noPai);
+            heap.set(pai, atual);
+            idx = pai;
         }
     }
 
-    /** Remove e retorna o nó de menor frequência */
-    public No removeMenor() {
-        if (heap.isEmpty()) {
-            throw new RuntimeException("O heap está vazio.");
+    // Move element down para manter propriedade do heap
+    private void siftDown(int idx) {
+        int size = heap.size();
+        while (true) {
+            int esquerda = 2 * idx + 1;
+            int direita = 2 * idx + 2;
+            int menor = idx;
+            if (esquerda < size && heap.get(esquerda).compareTo(heap.get(menor)) < 0) {
+                menor = esquerda;
+            }
+            if (direita < size && heap.get(direita).compareTo(heap.get(menor)) < 0) {
+                menor = direita;
+            }
+            if (menor == idx) {
+                break;
+            }
+            // troca idx com o filho menor
+            No tmp = heap.get(idx);
+            heap.set(idx, heap.get(menor));
+            heap.set(menor, tmp);
+            idx = menor;
         }
-
-        No noRemovido = heap.get(0);
-
-        No ultimoElemento = heap.remove(heap.size() - 1);
-
-        // Se o heap não ficou vazio após a remoção,
-        // coloca o último elemento na raiz e reorganiza.
-        if (!heap.isEmpty()) {
-            heap.set(0, ultimoElemento);
-            siftDown(0);
-        }
-
-        return noRemovido;
     }
-
-
 }
